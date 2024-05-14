@@ -87,12 +87,12 @@ class TarifEdfDataUpdateCoordinator(TimestampDataUpdateCoordinator):
             response = await self.hass.async_add_executor_job(get_remote_file, TEMPO_COLOR_API_URL)
             tempo_color_data = response.json()
             self.data["tempo_couleur"] = TEMPO_COEFF_DETAILS[tempo_color_data["codeJour"]]["couleur"]
-            self.data["tempo_variable_bleu_hc_ttc"] = base_ttc * TEMPO_COEFF_DETAILS["bleu"]["hc"]
-            self.data["tempo_variable_bleu_hp_ttc"] = base_ttc * TEMPO_COEFF_DETAILS["bleu"]["hp"]
-            self.data["tempo_variable_blanc_hc_ttc"] = base_ttc * TEMPO_COEFF_DETAILS["blanc"]["hc"]
-            self.data["tempo_variable_blanc_hp_ttc"] = base_ttc * TEMPO_COEFF_DETAILS["blanc"]["hp"]
-            self.data["tempo_variable_rouge_hc_ttc"] = base_ttc * TEMPO_COEFF_DETAILS["rouge"]["hc"]
-            self.data["tempo_variable_rouge_hp_ttc"] = base_ttc * TEMPO_COEFF_DETAILS["rouge"]["hp"]
+            self.data["tempo_variable_bleu_hc_ttc"] = round(base_ttc * TEMPO_COEFF_DETAILS[1]["hc"], 4)
+            self.data["tempo_variable_bleu_hp_ttc"] = round(base_ttc * TEMPO_COEFF_DETAILS[1]["hp"], 4)
+            self.data["tempo_variable_blanc_hc_ttc"] = round(base_ttc * TEMPO_COEFF_DETAILS[2]["hc"], 4)
+            self.data["tempo_variable_blanc_hp_ttc"] = round(base_ttc * TEMPO_COEFF_DETAILS[2]["hp"], 4)
+            self.data["tempo_variable_rouge_hc_ttc"] = round(base_ttc * TEMPO_COEFF_DETAILS[3]["hc"], 4)
+            self.data["tempo_variable_rouge_hp_ttc"] = round(base_ttc * TEMPO_COEFF_DETAILS[3]["hp"], 4)
 
         self.logger.info(self.data)
 
