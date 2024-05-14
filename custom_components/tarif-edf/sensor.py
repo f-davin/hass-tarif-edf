@@ -26,16 +26,12 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    coordinator: TarifEdfDataUpdateCoordinator = hass.data[DOMAIN][
-        config_entry.entry_id
-    ]["coordinator"]
+    coordinator: TarifEdfDataUpdateCoordinator = hass.data[DOMAIN][config_entry.entry_id]["coordinator"]
 
     sensors = []
     if coordinator.data["contract_type"] == CONTRACT_TYPE_BASE:
         sensors = [
-            TarifEdfSensor(
-                coordinator, "base_variable_ttc", "Tarif Base TTC", "EUR/kWh"
-            ),
+            TarifEdfSensor(coordinator, "base_variable_ttc", "Tarif Base TTC", "EUR/kWh"),
         ]
     elif coordinator.data["contract_type"] == CONTRACT_TYPE_HPHC:
         sensors = [
@@ -108,12 +104,7 @@ class TarifEdfSensor(CoordinatorEntity, SensorEntity):
     ) -> None:
         """Initialize the Tarif EDF sensor."""
         super().__init__(coordinator)
-        contract_name = (
-            str.upper(self.coordinator.data["contract_type"])
-            + " "
-            + self.coordinator.data["contract_power"]
-            + "kVA"
-        )
+        contract_name = str.upper(self.coordinator.data["contract_type"]) + " " + self.coordinator.data["contract_power"] + "kVA"
 
         self._coordinator_key = coordinator_key
         self._name = name
@@ -148,7 +139,4 @@ class TarifEdfSensor(CoordinatorEntity, SensorEntity):
     @property
     def available(self) -> bool:
         """Return if entity is available."""
-        return (
-            self.coordinator.last_update_success
-            and self.coordinator.data[self._coordinator_key] is not None
-        )
+        return self.coordinator.last_update_success and self.coordinator.data[self._coordinator_key] is not None
